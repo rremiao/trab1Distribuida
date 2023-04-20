@@ -17,10 +17,7 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
 
 	public static void main(String[] args) throws RemoteException {
 		if (args.length != 2) {
-			System.out.println("Usage: java Server <server ip> <nr jogadores>");
-//			args = new String[2];
-//			args[0] = "localhost";
-//			args[1] = "1";
+			System.out.println("Usage: java Server <server ip>");
 			System.exit(1);
 		}
 
@@ -40,7 +37,7 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
 			System.out.println("Serverfailed: " + e);
 		}
 
-		aguardandoJogadores(Integer.parseInt(args[1]));
+		aguardandoJogadores(0);
 		iniciarPartida();
 
 	}

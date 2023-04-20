@@ -1,6 +1,6 @@
 package trab1Distribuida;
 
-public class Jogador extends Thread implements Runnable {
+public class Jogador extends Thread {
 	public String username;
 	public Integer userId;
 	public String remoteHostName;
