@@ -3,9 +3,8 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Random;
 
-public class Client extends UnicastRemoteObject implements JogadorInterface {
+public class Client extends UnicastRemoteObject implements ClientInterface {
 
 	private static final long serialVersionUID = 4444815691400839830L;
 
@@ -13,11 +12,11 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
 		super();
 	}
 
-	private static volatile int jogadas;
+	// private static volatile int jogadas;
 	private static volatile String remoteHostName = null;
-	private static volatile int id;
-	private static volatile boolean encerrou = false;
-	private static JogoInterface jogoInterface;
+	// private static volatile int id;
+	// private static volatile boolean encerrou = false;
+	private static ServerInterface serverInterface;
 
 	public static void main(String[] args) {
 
@@ -47,26 +46,26 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
 			System.out.println("Client failed: " + e);
 		}
 		remoteHostName = args[0];
-		jogadas = Integer.parseInt(args[3]);
-		id = solicitarRegistro(args);
+		// jogadas = Integer.parseInt(args[3]);
+		// id = solicitarRegistro(args);
 	}
 
-	private static int solicitarRegistro(String[] args) {
-		try {
-			jogoInterface = connect();
-			int id = jogoInterface.register(args[2]);
-			System.out.println("register() successful, id: " + id);
-			return id;
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-		return -1;
-	}
+	// private static int solicitarRegistro(String[] args) {
+	// 	try {
+	// 		jogoInterface = connect();
+	// 		int id = jogoInterface.register(args[2]);
+	// 		System.out.println("register() successful, id: " + id);
+	// 		return id;
+	// 	} catch (RemoteException e) {
+	// 		e.printStackTrace();
+	// 	}
+	// 	return -1;
+	// }
 
-	private static JogoInterface connect() {
+	private static ServerInterface connect() {
 		try {
 			System.out.println("Connecting to server at : " + "rmi://" + remoteHostName + ":52369/server");
-			return (JogoInterface) Naming.lookup("rmi://" + remoteHostName + ":52369/server");
+			return (ServerInterface) Naming.lookup("rmi://" + remoteHostName + ":52369/server");
 		} catch (Exception e) {
 			System.out.println("Client failed: ");
 			e.printStackTrace();
@@ -74,39 +73,54 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
 		return null;
 	}
 
+	// @Override
+	// public void inicia() throws RemoteException {
+	// 	System.out.println("Iniciando partida...");
+	// 	Random rand = new Random();
+	// 	for (int i = 0; i < jogadas; i++) {
+	// 		if (encerrou) {
+	// 			System.out.println("Jogadas encerradas pelo servidor!");
+	// 			return;
+	// 		}
+	// 		try {
+	// 			Thread.sleep(rand.nextInt((1500 - 500) + 1) + 500);
+	// 			jogoInterface.joga(id);
+	// 		} catch (InterruptedException | RemoteException e) {
+	// 			e.printStackTrace();
+	// 		}
+	// 		System.out.println("Jogada " + i + " realizada!");
+	// 	}
+	// 	System.out.println("Todas as jogadas foram realizadas!");
+	// 	try {
+	// 		jogoInterface.encerra(id);			
+	// 	} catch (RemoteException e) {
+	// 		e.printStackTrace();
+	// 	}
+	// }
+
+	// @Override
+	// public void finaliza() throws RemoteException {
+	// 	System.out.println("Voce foi encerrado pelo servidor, fim da partida!");
+	// 	encerrou = true;
+	// }
+
+	// @Override
+	// public void cutuca() throws RemoteException {
+	// 	System.out.println("Recebeu uma cutucada do servidor, tudo OK!");
+	// }
+
 	@Override
-	public void inicia() throws RemoteException {
-		System.out.println("Iniciando partida...");
-		Random rand = new Random();
-		for (int i = 0; i < jogadas; i++) {
-			if (encerrou) {
-				System.out.println("Jogadas encerradas pelo servidor!");
-				return;
-			}
-			try {
-				Thread.sleep(rand.nextInt((1500 - 500) + 1) + 500);
-				jogoInterface.joga(id);
-			} catch (InterruptedException | RemoteException e) {
-				e.printStackTrace();
-			}
-			System.out.println("Jogada " + i + " realizada!");
-		}
-		System.out.println("Todas as jogadas foram realizadas!");
-		try {
-			jogoInterface.encerra(id);			
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+	public void ler() throws RemoteException {
+		System.out.println(0);
 	}
 
 	@Override
-	public void finaliza() throws RemoteException {
-		System.out.println("Voce foi encerrado pelo servidor, fim da partida!");
-		encerrou = true;
+	public void inserir() throws RemoteException {
+		System.out.println(1);
 	}
 
 	@Override
-	public void cutuca() throws RemoteException {
-		System.out.println("Recebeu uma cutucada do servidor, tudo OK!");
+	public void deletar() throws RemoteException {
+		System.out.println(2);
 	}
 }
