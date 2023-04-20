@@ -8,7 +8,6 @@ import java.util.*;
 public class Server extends UnicastRemoteObject implements ServerInterface {
 
 	private static final long serialVersionUID = 8074725936858325732L;
-	private static volatile List<Jogador> jogadores = new ArrayList<>();
 
 	public Server() throws RemoteException {
 	}
@@ -34,19 +33,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 		} catch (Exception e) {
 			System.out.println("Serverfailed: " + e);
 		}
-
-		aguardandoJogadores(0);
 		// iniciarPartida();
 
 	}
 
-	private static void aguardandoJogadores(int numJogadores) {
-		System.out.println("Aguardando novos jogadores.. necessarios " + numJogadores + " jogadores para iniciar");
-		while (jogadores.size() < numJogadores) {
-			// aguarda entrar todos os jogadores.
-		}
-		System.out.println("Numero de Jogadores Alcancados! Iniciando as jogadas");
-	}
 
 	@Override
 	public int lock() throws RemoteException {
@@ -90,22 +80,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 	// 	return -1;
 	// }
 
-	public static void loopingCutucadas(Jogador jog) {
-		while (!jog.encerrou) {
-			ClientInterface clientInterface = lookup(jog, "rmi://" + jog.remoteHostName + ":52369/client");
-			try {
-				Thread.sleep(3000l);
-				if (!jog.encerrou) // valor pode ter sido mudado pro alguma thread durante o sleep desta
-					clientInterface.inserir(); //clientInterface.cutuca();
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		System.out.println("Encerrado Looping de cutucadas do jogador " + jog.username + " " + jog.remoteHostName);
-	}
-
 
 	// @Override
 	// public int joga(int id) throws RemoteException {
@@ -146,10 +120,10 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 	// 	return jogadores.stream().filter(elem -> false == elem.encerrou).collect(Collectors.toList()).isEmpty();
 	// }
 
-	private static ClientInterface lookup(Jogador j, String connectLocation) {
+	private static ClientInterface lookup(String connectLocation) {
 		ClientInterface clientInterface = null;
 		try {
-			System.out.println("Respondendo Callback client em : " + connectLocation + " " + j.username);
+			System.out.println("Respondendo Callback client em : " + connectLocation + " " );
 			clientInterface = (ClientInterface) Naming.lookup(connectLocation);
 		} catch (Exception e) {
 			System.out.println("Callback failed: ");
