@@ -8,26 +8,24 @@ import java.util.*;
 public class Server extends UnicastRemoteObject implements ServerInterface {
 
 	private static final long serialVersionUID = 8074725936858325732L;
+	private static List<String> portasServer; //consome arquivo portasServer
+	private static List<String> portasClient; //consome arquivo portasClient
+
 
 	public Server() throws RemoteException {
 	}
 
 	public static void main(String[] args) throws RemoteException {
-		if (args.length != 2) {
-			System.out.println("Usage: java Server <server ip>");
-			System.exit(1);
-		}
-
 		try {
-			System.setProperty("java.rmi.server.hostname", args[0]);
-			LocateRegistry.createRegistry(52369);
+			System.setProperty("java.rmi.server.hostname", "localhost");
+			LocateRegistry.createRegistry(52369); //trocar pela porta do arquivo
 			System.out.println("java RMI registry created.");
 		} catch (RemoteException e) {
 			System.out.println("java RMI registry already exists.");
 		}
 
 		try {
-			String server = "rmi://" + args[0] + ":52369/server";
+			String server = "rmi://" + "localhost" + ":52369/server"; //trocar pela porta do arquivo
 			Naming.rebind(server, new Server());
 			System.out.println("Server is ready.");
 		} catch (Exception e) {

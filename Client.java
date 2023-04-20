@@ -3,6 +3,7 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 
 public class Client extends UnicastRemoteObject implements ClientInterface {
 
@@ -12,40 +13,28 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 		super();
 	}
 
-	// private static volatile int jogadas;
 	private static volatile String remoteHostName = null;
-	// private static volatile int id;
-	// private static volatile boolean encerrou = false;
 	private static ServerInterface serverInterface;
+	private static List<String> portasServidor; //consome arquivos portasServer
+	private static List<String> portasClient; //consome arquivos portasClient
 
 	public static void main(String[] args) {
-
-		if (args.length != 4) {
-			System.out.println("Usage: java Client <server ip> <client ip> <nickname> <nro de jogadas>");
-//			args = new String[4];
-//			args[0] = "localhost";
-//			args[1] = "localhost";
-//			args[2] = "user1";
-//			args[3] = "10";
-			System.exit(1);
-		}
-
 		try {
-			System.setProperty("java.rmi.server.hostname", args[1]);
-			LocateRegistry.createRegistry(52369);
+			System.setProperty("java.rmi.server.hostname", "localhost");//trocar pela porta do arquivo
+			LocateRegistry.createRegistry(52369);//trocar pela porta do arquivo
 			System.out.println("java RMI registry created.");
 		} catch (RemoteException e) {
 			System.out.println("java RMI registry already exists.");
 		}
 
 		try {
-			String client = "rmi://" + args[1] + ":52369/client";
+			String client = "rmi://" + "localhost" + ":52369/client";//trocar pela porta do arquivo
 			Naming.rebind(client, new Client());
 			System.out.println("Client is ready.");
 		} catch (Exception e) {
 			System.out.println("Client failed: " + e);
 		}
-		remoteHostName = args[0];
+		remoteHostName = "localhost";
 		// jogadas = Integer.parseInt(args[3]);
 		// id = solicitarRegistro(args);
 	}
@@ -64,8 +53,8 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 
 	private static ServerInterface connect() {
 		try {
-			System.out.println("Connecting to server at : " + "rmi://" + remoteHostName + ":52369/server");
-			return (ServerInterface) Naming.lookup("rmi://" + remoteHostName + ":52369/server");
+			System.out.println("Connecting to server at : " + "rmi://" + remoteHostName + ":52369/server");//trocar pela porta do arquivo
+			return (ServerInterface) Naming.lookup("rmi://" + remoteHostName + ":52369/server");//trocar pela porta do arquivo
 		} catch (Exception e) {
 			System.out.println("Client failed: ");
 			e.printStackTrace();
