@@ -30,8 +30,6 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 		} catch (Exception e) {
 			System.out.println("Serverfailed: " + e);
 		}
-		// iniciarPartida();
-
 	}
 
 
