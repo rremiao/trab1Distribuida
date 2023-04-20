@@ -88,10 +88,8 @@ public class Server extends UnicastRemoteObject implements JogoInterface {
 				if (!jog.encerrou) // valor pode ter sido mudado pro alguma thread durante o sleep desta
 					jogadorInterface.cutuca();
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

@@ -11,7 +11,6 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
 
 	protected Client() throws RemoteException {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	private static volatile int jogadas;
@@ -96,7 +95,6 @@ public class Client extends UnicastRemoteObject implements JogadorInterface {
 		try {
 			jogoInterface.encerra(id);			
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
