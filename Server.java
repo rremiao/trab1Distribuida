@@ -7,7 +7,6 @@ import java.util.*;
 
 public class Server extends UnicastRemoteObject implements ServerInterface {
 
-	private static final long serialVersionUID = 8074725936858325732L;
 	private static List<String> portasServer; //consome arquivo portasServer
 	private static List<String> portasClient; //consome arquivo portasClient
 
