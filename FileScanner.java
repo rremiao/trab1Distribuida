@@ -8,10 +8,10 @@ public class FileScanner {
     public static void main(String[] args) {
     }
 
-    public List<String> readPorts(String path) {
+    public List<String> readPorts(String portFile) {
         List<String> list = new ArrayList<>();
         try {
-            Scanner scanner = new Scanner(new File(path));
+            Scanner scanner = new Scanner(new File("./portas/" + portFile));
 
             while (scanner.hasNextLine()) {
                 list.add(scanner.nextLine());

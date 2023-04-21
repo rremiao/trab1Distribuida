@@ -18,7 +18,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 	public static void main(String[] args) {
 
 		FileScanner fileScanner = new FileScanner();
-		portasClient = fileScanner.readPorts("./portas/portasClient.txt");
+		portasClient = fileScanner.readPorts("portasClient.txt");
 
 		try {
 			System.setProperty("java.rmi.server.hostname", "localhost");//trocar pela porta do arquivo
