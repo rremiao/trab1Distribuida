@@ -25,4 +25,40 @@ public class FileScanner {
 
         return list;
     }
+
+    public List<String> readInstructions() {
+        List<String> list = new ArrayList<>();
+        try {
+            Scanner scanner = new Scanner(new File("arquivoInstrucoes.txt"));
+
+            while (scanner.hasNextLine()) {
+                list.add(scanner.nextLine());
+            }
+
+            scanner.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public List<String> readBaseFile() {
+        List<String> list = new ArrayList<>();
+        try {
+            Scanner scanner = new Scanner(new File("arquivoBase.txt"));
+
+            while (scanner.hasNextLine()) {
+                list.add(scanner.nextLine());
+            }
+
+            scanner.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 }

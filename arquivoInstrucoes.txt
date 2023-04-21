@@ -1,0 +1,4 @@
+ler
+inserir (Ola)
+inserir (1)
+deletar (1)
