@@ -140,7 +140,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
 	public void sleep() {
 		try {
-			Thread.sleep(100);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

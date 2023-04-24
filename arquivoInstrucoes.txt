@@ -2,3 +2,11 @@ ler
 inserir (Ola)
 inserir (1)
 deletar (1)
+inserir (Hoje é dia 24/04)
+ler
+inserir (Fazem 20 graus em Porto Alegre)
+inserir (2023)
+inserir (04)
+inserir (22)
+deletar (2023)
+ler
