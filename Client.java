@@ -12,14 +12,14 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 
 	private static volatile String remoteHostName = null;
 	private static ServerInterface serverInterface;
-	private static List<String> portasServidor; //consome arquivos portasServer
-	private static List<String> portasClient; //consome arquivos portasClient
+	private static List<String> portasServidor; // consome arquivos portasServer
+	private static List<String> portasClient; // consome arquivos portasClient
 	private static List<String> instrucoes;
 	private static int thisPort = 0;
 	private static int serverPort = 0;
-	private static int random = new Random().nextInt(4-0) + 0;
+	private static int random = new Random().nextInt(4 - 0) + 0;
 
-	public void main(String[] args) {
+	public static void main(String[] args) {
 
 		FileScanner fileScanner = new FileScanner();
 		portasClient = fileScanner.readPorts("portasClient.txt");
@@ -59,33 +59,30 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 		return null;
 	}
 
-	private void runInstructions() {
+	private static void runInstructions() {
 		serverInterface = connect();
 		int i = 0;
 		try {
-			for(String s : instrucoes) {
-				if(s.contains("ler")) {
-					this.ler();
+			for (String s : instrucoes) {
+				if (s.contains("ler")) {
+					ler();
 					i++;
-				}
-				else if(s.contains("inserir")) {
+				} else if (s.contains("inserir")) {
 					int index = s.indexOf("(");
 					String texto = s.substring(index, s.length() - 2);
 
-					this.inserir(texto);
+					inserir(texto);
 					i++;
-				}
-				else if(s.contains("deletar")) {
+				} else if (s.contains("deletar")) {
 					int index = s.indexOf("(");
 					String texto = s.substring(index, s.length() - 2);
 
-					this.deletar(texto);
+					deletar(texto);
 					i++;
-				}
-				else if(i == instrucoes.size()) {
+				} else if (i == instrucoes.size()) {
 					serverInterface.endOfFile();
-				}
-				else throw new InstructionException("INSTRUÇÃO INVÁLIDA");
+				} else
+					throw new InstructionException("INSTRUÇÃO INVÁLIDA");
 			}
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -94,18 +91,18 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
-	public List<String> ler() throws RemoteException {
+	public static List<String> ler() throws RemoteException {
 		return serverInterface.ler();
 	}
 
-	public String inserir(String texto) throws RemoteException {
+	public static String inserir(String texto) throws RemoteException {
 		return serverInterface.inserir(texto);
 	}
 
-	public int deletar(String texto) throws RemoteException {
+	public static int deletar(String texto) throws RemoteException {
 		return serverInterface.deletar(texto);
 	}
 
@@ -121,5 +118,4 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 		System.exit(0);
 	}
 
-	
 }

@@ -8,14 +8,13 @@ import java.util.*;
 
 public class Server extends UnicastRemoteObject implements ServerInterface {
 
-	private static List<String> portasServidor; //consome arquivo portasServer
-	private static List<String> portasClient; //consome arquivo portasClient
+	private static List<String> portasServidor; // consome arquivo portasServer
+	private static List<String> portasClient; // consome arquivo portasClient
 	private static List<String> arquivoBase;
 	private static int thisPort = 0;
 	private static int clientPort = 0;
-	private static int random = new Random().nextInt(4-0) + 0;
+	private static int random = new Random().nextInt(4 - 0) + 0;
 	private static ClientInterface clientInterface;
-
 
 	public Server() throws RemoteException {
 	}
@@ -27,7 +26,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 		portasServidor = fileScanner.readPorts("portasServer.txt");
 		arquivoBase = fileScanner.readBaseFile();
 
-		clientPort = Integer.valueOf(portasClient.get(random)); //esse recebe por parametro, nao random
+		clientPort = Integer.valueOf(portasClient.get(random)); // esse recebe por parametro, nao random
 		thisPort = Integer.valueOf(portasServidor.get(random));
 
 		try {
@@ -49,9 +48,9 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
 	private static ClientInterface lookup() {
 		ClientInterface clientInterface = null;
-		String connectLocation = "rmi://localhost:" + clientPort+ "/client";
+		String connectLocation = "rmi://localhost:" + clientPort + "/client";
 		try {
-			System.out.println("Respondendo Callback client em : " + connectLocation + " " );
+			System.out.println("Respondendo Callback client em : " + connectLocation + " ");
 			clientInterface = (ClientInterface) Naming.lookup(connectLocation);
 		} catch (Exception e) {
 			System.out.println("Callback failed: ");
@@ -71,7 +70,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 		this.sleep();
 		this.lock();
 		arquivoBase.add(texto);
-		
+
 		try {
 			FileWriter writerObj = new FileWriter("arquivoBase.txt", true);
 			writerObj.write(texto);
@@ -81,7 +80,7 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		this.unlock();
 		return arquivoBase.get(arquivoBase.size() - 1);
 	}
@@ -96,11 +95,11 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
 		try {
 			FileWriter writerObj = new FileWriter("arquivoBase.txt", true);
-			
-			for(String s : arquivoBase) {
+
+			for (String s : arquivoBase) {
 				writerObj.append(s);
 			}
-			
+
 			writerObj.close();
 
 		} catch (IOException e) {
@@ -119,12 +118,24 @@ public class Server extends UnicastRemoteObject implements ServerInterface {
 
 	public void lock() throws RemoteException {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'lock'");
+		try {
+			System.out.println("trava");
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new UnsupportedOperationException("Unimplemented method 'lock'");
+		}
+
 	}
 
 	public void unlock() throws RemoteException {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'unlock'");
+		try {
+			System.out.println("destrava");
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new UnsupportedOperationException("Unimplemented method 'unlock'");
+		}
+
 	}
 
 	public void sleep() {
