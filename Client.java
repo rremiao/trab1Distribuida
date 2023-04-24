@@ -32,7 +32,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 		try {
 			System.setProperty("java.rmi.server.hostname", "localhost");
 			LocateRegistry.createRegistry(thisPort);
-			System.out.println("java RMI registry created.");
+			System.out.println("java RMI registry created at port: "+ thisPort);
 		} catch (RemoteException e) {
 			System.out.println("java RMI registry already exists.");
 		}
@@ -68,14 +68,14 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 					ler();
 					i++;
 				} else if (s.contains("inserir")) {
-					int index = s.indexOf("(");
-					String texto = s.substring(index, s.length() - 2);
+					int index = s.indexOf("(") + 1;
+					String texto = s.substring(index, s.length() - 1) + "\n";
 
 					inserir(texto);
 					i++;
 				} else if (s.contains("deletar")) {
-					int index = s.indexOf("(");
-					String texto = s.substring(index, s.length() - 2);
+					int index = s.indexOf("(") + 1;
+					String texto = s.substring(index, s.length() - 1) + "\n";
 
 					deletar(texto);
 					i++;
@@ -95,14 +95,21 @@ public class Client extends UnicastRemoteObject implements ClientInterface {
 	}
 
 	public static List<String> ler() throws RemoteException {
+		List<String> content = serverInterface.ler();
+		System.out.println("Resultado Leitura");
+		for(String s : content) {
+			System.out.println(s);
+		}
 		return serverInterface.ler();
 	}
 
 	public static String inserir(String texto) throws RemoteException {
+		System.out.println("Texto Inserido:" + texto);
 		return serverInterface.inserir(texto);
 	}
 
 	public static int deletar(String texto) throws RemoteException {
+		System.out.println("Texto removido:" + texto);
 		return serverInterface.deletar(texto);
 	}
 
